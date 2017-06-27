@@ -3,25 +3,23 @@ require 'json'
 require 'pry'
 
 def get_character_movies_from_api(character)
-  #make the web request
+  #make the web request'
+
+
   all_characters = RestClient.get('http://www.swapi.co/api/people/')
   character_hash = JSON.parse(all_characters)
   
-
-
  filmurls = []
-  if character_hash["results"][0]["name"].downcase == character 
-    filmurls = character_hash["results"][0]["films"]
-  end 
+  character_hash["results"].each do |movie_hash|
+    if movie_hash["name"].downcase == character 
+      filmurls = movie_hash["films"]
+    end 
+  end
    
-  
   filmurls.map do |url|
     url_data = RestClient.get(url)
-
     parsed_url_data = JSON.parse(url_data)
   end 
-
-   
 
   # iterate over the character hash to find the collection of `films` for the given
   #   `character`
